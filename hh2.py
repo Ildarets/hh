@@ -14,17 +14,6 @@ params = {
 result = requests.get(url_vacancies, params=params).json()
 
 pprint.pprint(result)
-
-salary = result['items'][0]['salary']['to']
-print(salary)
-sal = []
-for i in range(20):
-    if result['items'][i]['salary'] == None:
-        continue
-    else:
-        salary = result['items'][i]['salary']['to']
-        sal.append(salary)
-print(sal)
 #
 # items = result['items']
 #
