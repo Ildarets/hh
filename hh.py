@@ -2,6 +2,7 @@ import time
 import requests
 import pprint
 import statistics
+import json
 
 QUESTIONS = str(input("Какая должность Вас интересует???  "))
 CITY = str(input("Какой регион???  "))
@@ -63,3 +64,6 @@ print(f'Средняя зарплата  {list_salary_mean} рублей!')
 for i in result_vac:
     print(*i)
 
+# result_json = json.dumps(key_skills)
+with open('result_scills.json', 'w') as f:
+    json.dump(result_vac,f)
