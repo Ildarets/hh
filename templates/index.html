@@ -11,10 +11,10 @@
   <title>Главная</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet" >
 
 </head>
 
@@ -26,10 +26,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Мегапарсер hh </div>
       <div class="list-group list-group-flush">
-        <a href="index.html" class="list-group-item list-group-item-action bg-light">Главная</a>
-        <a href="form.html" class="list-group-item list-group-item-action bg-light">Форма</a>
-        <a href="results.html" class="list-group-item list-group-item-action bg-light">Результаты</a>
-        <a href="contacts.html" class="list-group-item list-group-item-action bg-light">Контакты</a>
+        <a href="/" class="list-group-item list-group-item-action bg-light">Главная</a>
+        <a href="/run/" class="list-group-item list-group-item-action bg-light">Форма</a>
+
+        <a href="/contacts/" class="list-group-item list-group-item-action bg-light">Контакты</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -47,13 +47,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Главная <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" href="results.html">Результаты</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="form.html" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link" href="/run/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Форма заполнения
               </a>
             </li>
@@ -63,8 +61,9 @@
 
       <div class="container-fluid">
         <h1 class="mt-4">Мегапарсер вакансий с Head Hanter</h1>
-        <p>Данный мегапарсер позволяет парсить данный о вакансиях в зависимости от должности и региона.</p>
+        <p>Данный мегапарсер позволяет парсить данные о вакансиях с сайта hh.ru в зависимости от должности и региона.</p>
         <p>Вам надо только перейти на страницу заполнения формы и указать должность и выбрать регион.</p>
+        <p>МегаПарсер выдаст информацию о количестве вакансий в данном городе, среднюю зарплату и ключевые навыки для данной должности.</p>
       </div>
     </div>
     <!-- /#page-content-wrapper -->

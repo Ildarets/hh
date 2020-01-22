@@ -11,10 +11,10 @@
   <title>Формы</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="/static/css/simple-sidebar.css" rel="stylesheet" >
 
 </head>
 
@@ -26,10 +26,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Start Bootstrap </div>
       <div class="list-group list-group-flush">
-        <a href="index.html" class="list-group-item list-group-item-action bg-light">Главная</a>
-        <a href="form.html" class="list-group-item list-group-item-action bg-light">Форма</a>
-        <a href="results.html" class="list-group-item list-group-item-action bg-light">Результаты</a>
-        <a href="contacts.html" class="list-group-item list-group-item-action bg-light">Контакты</a>
+        <a href="/" class="list-group-item list-group-item-action bg-light">Главная</a>
+        <a href="/run/" class="list-group-item list-group-item-action bg-light">Форма</a>
+
+        <a href="/contacts/" class="list-group-item list-group-item-action bg-light">Контакты</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -47,13 +47,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Главная <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="results.html">Результаты</a>
-            </li>
+
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="form.html" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="/run/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Форма заполнения
               </a>
             </li>
@@ -62,9 +60,9 @@
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">Заполните форму ниже</h1>
+        <h1 class="mt-4">"{{text}}"</h1>
         <hr>
-        <form action="results.html">
+        <form method="post" >
           <h5 class="mt-2">Введите должность</h5>
         <input class="form-group col-md-6" type  = "text" name="QUESTIONS" value="" placeholder="Python">
         <br>
@@ -75,6 +73,17 @@
             <option value="Москва"> Москва </option>
             <option value="Санкт-Петербург"> Санкт-Петербург </option>
             <option value="Казань"> Казань </option>
+            <option value="Новосибирск">Новосибирск</option>
+            <option value="Нижний Новгород"> Нижний Новгород </option>
+            <option value="Екатеринбург"> Екатеринбург </option>
+            <option value="Челябинск"> Челябинск </option>
+            <option value="Омск"> Омск </option>
+            <option value="Самара"> Самара </option>
+            <option value="Ростов-на-Дону"> Ростов-на-Дону </option>
+            <option value="Уфа"> Уфа </option>
+            <option value="Красноярск"> Красноярск </option>
+            <option value="Пермь"> Пермь </option>
+            <option value="Воронеж"> Воронеж </option>
         </select>
 
 <!--        <input type  = "text" name="CITY" value="" placeholder="Какая должность?">-->

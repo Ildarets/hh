@@ -67,3 +67,5 @@ for i in result_vac:
 # result_json = json.dumps(key_skills)
 with open('result_scills.json', 'w') as f:
     json.dump(result_vac,f)
+
+print(result_vac)
