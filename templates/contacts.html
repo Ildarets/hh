@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Главная</title>
+  <title> Контакты </title>
 
   <!-- Bootstrap core CSS -->
   <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
@@ -71,7 +71,7 @@
                     <tr>
                         <td>Ректор</td>
                         <td>Дмитрий Романов</td>
-                        <td>223-32-22</td>
+                        <td>{{context.phone_neiron}}</td>
                         <td>DRomanov@mozg.ru</td>
                     </tr>
                     <tr>
@@ -82,9 +82,9 @@
                     </tr>
                     <tr>
                         <td>Автор</td>
-                        <td>{{name}}</td>
-                        <td>89600990747</td>
-                        <td>ildarets@mail.ru</td>
+                        <td>{{context.name}}</td>
+                        <td>+{{context.phone}}</td>
+                        <td>{{context.mail}}</td>
                     </tr>
                 </table>
       </div>

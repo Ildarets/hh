@@ -16,8 +16,8 @@ params = {'text': f'NAME:({QUESTIONS}) AND {CITY}'}
 result = requests.get(url, params=params).json()
 found = result['found']
 
-
-for i in range(100): # Охватываем максимальное число страниц
+# Охватываем максимальное число страниц
+for i in range(100):
     params = {
         'text': f'NAME:({QUESTIONS}) AND {CITY}',
         'page': i
@@ -64,7 +64,6 @@ print(f'Средняя зарплата  {list_salary_mean} рублей!')
 for i in result_vac:
     print(*i)
 
-# result_json = json.dumps(key_skills)
 with open('result_scills.json', 'w') as f:
     json.dump(result_vac,f)
 

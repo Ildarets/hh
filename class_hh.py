@@ -1,8 +1,6 @@
 import time
 import requests
-import pprint
 import statistics
-import json
 
 
 class Parser_HH:
@@ -47,7 +45,7 @@ class Parser_HH:
                 list_salary_to.append(i)
 
         list_salary_mean = statistics.mean(list_salary_to)
-        # Обработка ошибки при неправильно введенном запросе
+        # Обработка ошибки при неправильно введенном запросе где будут нули
         try:
             list_salary_mean = round(list_salary_mean)
         except:
@@ -56,10 +54,7 @@ class Parser_HH:
         return list_salary_mean
 
     def key_skills(self):
-
-        # QUESTIONS = str(input("Какая должность Вас интересует???  "))
-        # CITY = str(input("Какой регион???  "))
-
+        """Список ключевых навыков"""
         key_skills = {}
         url = 'https://api.hh.ru/vacancies'
         key_skills_list = []
@@ -89,9 +84,5 @@ class Parser_HH:
                 key_skills[skill] = 1
 
         result_vac = sorted(key_skills.items(), key = lambda x: x[1], reverse= True)
-        #
-        #
-        # with open(f'result_scills_{self.QUESTIONS}_{self.CITY}.json', 'w') as f:
-        #     json.dump(result_vac,f)
 
         return result_vac
