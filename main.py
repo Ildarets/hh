@@ -56,10 +56,12 @@ def run_postSQL():
     """Запросы в парсер по должности и городу"""
     QUESTIONS = request.form['QUESTIONS']
     CITY = request.form['CITY']
-    #vacancy = Parser_HH(QUESTIONS, CITY)
     input_table = Input_SQL(QUESTIONS, CITY)
-    input_ = input_table.full_table_sql()
+
     output_table = input_table.select_table_sql(QUESTIONS, CITY)
+    if output_table == []:
+        input_ = input_table.full_table_sql()
+        output_table = input_table.select_table_sql(QUESTIONS, CITY)
 
     return render_template('resultsSQL.html',
                            CITY = CITY,
@@ -67,6 +69,6 @@ def run_postSQL():
                            key_skills = output_table
                            )
 
-
+# select v.name as vacancy_name, k.name as key_skills_name from vacancy v , key_skills k, vacancy_key_skills vk, region r where vk.vacancy_id == v.id and vk.key_skills_id == k.id and v.name == 'R' and r.name = 'Тула'
 if __name__ == "__main__":
     app.run(debug=True)

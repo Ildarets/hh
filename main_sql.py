@@ -75,14 +75,13 @@ class Input_SQL:
         # Создаем курсор
         cursor = conn.cursor()
 
-        cursor.execute('SELECT k.name from vacancy v, region r, key_skills k where r.name == ? and v.name == ?', (city, question))
+        cursor.execute('select k.name from vacancy v , key_skills k, vacancy_key_skills vk, region r where vk.vacancy_id == v.id and vk.key_skills_id == k.id and v.name == ? and r.name = ?', (question,city ))
         key_skills_list = cursor.fetchall()
 
         return_key_skills_list = []
         for key in key_skills_list:
             key_skill = key[0]
             return_key_skills_list.append(key_skill)
-        # print(key_skills_list)
 
         return return_key_skills_list
 
