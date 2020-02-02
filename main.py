@@ -59,6 +59,8 @@ def run_postSQL():
     input_table = Input_SQL(QUESTIONS, CITY)
 
     output_table = input_table.select_table_sql(QUESTIONS, CITY)
+
+    """Если запрос возвращает пустой список, то тогда парсим данные и возвращаем список ключевых навыков"""
     if output_table == []:
         input_ = input_table.full_table_sql()
         output_table = input_table.select_table_sql(QUESTIONS, CITY)
