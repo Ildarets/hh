@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Главная</title>
+  <title>Формы</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
@@ -24,12 +24,11 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">{{name}} </div>
+      <div class="sidebar-heading">Start Bootstrap </div>
       <div class="list-group list-group-flush">
         <a href="/" class="list-group-item list-group-item-action bg-light">Главная</a>
         <a href="/run/" class="list-group-item list-group-item-action bg-light">Форма</a>
         <a href="/runSQL/" class="list-group-item list-group-item-action bg-light">ФормаSQL</a>
-
         <a href="/contacts/" class="list-group-item list-group-item-action bg-light">Контакты</a>
       </div>
     </div>
@@ -51,8 +50,8 @@
               <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="/run/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/run/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Форма заполнения
               </a>
             </li>
@@ -61,11 +60,21 @@
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">{{name}} вакансий с Head Hanter</h1>
-        <p>Данный мегапарсер позволяет парсить данные о вакансиях с сайта hh.ru в зависимости от должности и региона.</p>
-        <p>Вам надо только перейти на страницу заполнения формы и указать должность и выбрать регион.</p>
-        <p>МегаПарсер выдаст информацию о количестве вакансий в данном городе, среднюю зарплату и ключевые навыки для данной должности.</p>
-      </div>
+        <h1 class="mt-4">{{text}}</h1>
+        <hr>
+        <form method="post" >
+          <h5 class="mt-2">Введите должность</h5>
+        <input class="form-group col-md-6" type  = "text" name="QUESTIONS" value="" placeholder="Python">
+        <br>
+        <br>
+          <h5 class="mt-2">Выберите город</h5>
+          <input class="form-group col-md-6" type  = "text" name="CITY" value="" placeholder="Москва">
+
+        <br>
+        <br>
+        <input class="btn btn-info" type="submit" value="Искать">
+    </form>
+        </div>
     </div>
     <!-- /#page-content-wrapper -->
 
