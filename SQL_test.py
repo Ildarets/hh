@@ -1,8 +1,12 @@
 import sqlite3
 from class_hh_sql import Parser_HH
 from main_sql import Input_SQL
+from class_Input_SQLAlchemy import Input_SQLAlchemy
 
-test_Q = Input_SQL('Java', 'Набережные Челлны')
-test_Q_list = test_Q.select_table_sql('Java', 'Набережные Челлны')
+# test_Q = Input_SQL('Java', 'Набережные Челлны')
+# test_Q_list = test_Q.select_table_sql('Java', 'Набережные Челлны')
+#
+# print(test_Q_list)
 
-print(test_Q_list)
+test_Alch = Input_SQLAlchemy('Java', 'Набережные Челлны')
+test_Alch.create_table()

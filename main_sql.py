@@ -35,7 +35,7 @@ class Input_SQL:
         city = city[0][0]
         # Заполняем вакансии
         try:
-                cursor.execute('insert into vacancy(name, region_id) values(?, ?)', (self.QUESTIONS, city))
+            cursor.execute('insert into vacancy(name, region_id) values(?, ?)', (self.QUESTIONS, city))
         except:
             pass
 
