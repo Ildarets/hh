@@ -8,5 +8,7 @@ from class_Input_SQLAlchemy import Input_SQLAlchemy
 #
 # print(test_Q_list)
 
-test_Alch = Input_SQLAlchemy('Java', 'Набережные Челлны')
+test_Alch = Input_SQLAlchemy('R', 'Казань')
 test_Alch.create_table()
+
+test_Alch.full_table_sql()

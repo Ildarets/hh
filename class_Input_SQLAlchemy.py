@@ -8,6 +8,9 @@ class Input_SQLAlchemy:
     def __init__(self,QUESTIONS, CITY):
         self.QUESTIONS = QUESTIONS
         self.CITY = CITY
+        parser = Parser_HH(QUESTIONS, CITY)
+        self.skills_list = parser.key_skills()
+        #print(skills_list)
 
 
 
@@ -37,16 +40,12 @@ class Input_SQLAlchemy:
             __tablename__ = 'region'
             id = Column(Integer, primary_key=True)
             name = Column(String)
-            number = Column(Integer, nullable=True)
 
-            # note = Column(String, nullable=True)
-
-            def __init__(self, name, number):
+            def __init__(self, name):
                 self.name = name
-                self.number = number
 
             def __str__(self):
-                return f'{self.id}) {self.name}: {self.number}'
+                return f'{self.id}) {self.name}'
 
         class Vacancy(Base):
             __tablename__ = 'vacancy'
@@ -78,95 +77,58 @@ class Input_SQLAlchemy:
         session = Session()
 
         """ ДЕлаем объект и заполняем таблицу должностью, городом и навыками"""
-        skills_list = Parser_HH(self.QUESTIONS, self.CITY)
+
         # Список ключевых навыков
-        key_skills_list = skills_list.key_skills()
+        key_skills_list = self.skills_list
 
         #Делаем запрос по имени города
         city = session.query(self.Region).filter(self.Region.name == self.CITY).first()
-
-        # ищем id города
-        city_id = city.id
-
         # Если этого города нет то мы его добавляем
-        if not city_id:
-            count_id = session.query(self.Region).filter(self.Region.name == self.CITY).count()
-            session.add([self.Region(self.CITY, count_id + 1)])
+        if not city:
+            session.add(self.Region(self.CITY))
         session.commit()
-
         # Делаем запрос по имени города
         city = session.query(self.Region).filter(self.Region.name == self.CITY).first()
-
         # ищем id города
         city_id = city.id
-
-
-
-
 
 
         # Заполняем вакансии
         # Делаем запрос по имени города
         vacancy = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).first()
-        # ищем id вакансии
-        vacancy_id = vacancy.id
         # Если этой вакансии нет то мы ее добавляем
-        if not vacancy_id:
-            count_id = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).count()
-            session.add([self.Vacancy(self.QUESTIONS, city_id)])
+        if not vacancy:
+            session.add(self.Vacancy(self.QUESTIONS, city_id))
         session.commit()
-        # Делаем запрос по имени города
-        vacancy = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).first()
-        # ищем id вакансии
-        vacancy_id = vacancy.id
-
-
-
-        # cursor.execute('SELECT id from region where name = ?', (self.CITY,))
-        # city = cursor.fetchall()
-        # city = city[0][0]
-        # # Заполняем вакансии
-        # try:
-        #     cursor.execute('insert into vacancy(name, region_id) values(?, ?)', (self.QUESTIONS, city))
-        # except:
-        #     pass
-
-        # Заполняем ключевые навыки из списка полученного от класса Parser_HH
-        for key_skill in key_skills_list:
-            # Делаем запрос по имени города
-            skill = session.query(self.Skill).filter(self.Skill.name == key_skill).first()
-            # ищем id вакансии
-            skill_id = skill.id
-            # Если этой вакансии нет то мы ее добавляем
-            if not skill_id:
-                count_id = session.query(self.Skill).filter(self.Skill.name == key_skill).count()
-                session.add([self.Skill(key_skill)])
+        # Заполняем навыки
+        for skill in key_skills_list:
+            # Делаем запрос по имени навыка
+            skill_query = session.query(self.Skill).filter(self.Skill.name == skill).first()
+            # Если этой навыка нет то мы его добавляем
+            if not skill_query:
+                session.add(self.Skill(skill))
             session.commit()
-            # Делаем запрос по имени города
-            skill = session.query(self.Skill).filter(self.Skill.name == key_skill).first()
-            # ищем id вакансии
-            skill_id = skill.id
 
 
         # Делаем список из id ключевых навыков
         id_key_skills_list = []
 
         for key in key_skills_list:
-                cursor.execute('SELECT id from key_skills where name = ?', (key,))
-                id_key_skills = cursor.fetchall()
-                id_key_skills = id_key_skills[0][0]
-                id_key_skills_list.append(id_key_skills)
-
-        #Узанем id  вакансии
-        cursor.execute('SELECT id from vacancy where name = ?', (self.QUESTIONS,))
-        vacancy_id = cursor.fetchall()
-        vacancy_id = vacancy_id[0][0]
-
-        # Заполняем таблицу vacancy key_skills. Заполняем id  вакансии и id ключеваго навыка
-        for id in id_key_skills_list:
-                cursor.execute('insert into vacancy_key_skills(vacancy_id, key_skills_id) values (?,?)', (vacancy_id, id))
-
-        conn.commit()
+            # Делаем запрос по имени навыка
+            key_query = session.query(self.Skill).filter(self.Skill.name == key).first()
+            key_query_id = key_query.id
+            id_key_skills_list.append(key_query_id)
+        #
+        # #Узанем id  вакансии
+        # cursor.execute('SELECT id from vacancy where name = ?', (self.QUESTIONS,))
+        # vacancy_id = cursor.fetchall()
+        # vacancy_id = vacancy_id[0][0]
+        #
+        # # Заполняем таблицу vacancy key_skills. Заполняем id  вакансии и id ключеваго навыка
+        # for id in id_key_skills_list:
+        #         cursor.execute('insert into vacancy_key_skills(vacancy_id, key_skills_id) values (?,?)', (vacancy_id, id))
+        #
+        # conn.commit()
 
     def select_table_sql(self, question, city):
         # Подключение к базе данных
