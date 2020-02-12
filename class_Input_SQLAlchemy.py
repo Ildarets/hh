@@ -12,7 +12,6 @@ class Input_SQLAlchemy:
         self.CITY = CITY
         parser = Parser_HH(QUESTIONS, CITY)
         self.skills_list = parser.key_skills()
-        # print(skills_list)
 
     def create_table(self):
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
@@ -108,28 +107,26 @@ class Input_SQLAlchemy:
             session.commit()
 
         # Делаем список из id ключевых навыков
-        name_key_skills_list = []
+        id_key_skills_list = []
 
         for key in key_skills_list:
             # Делаем запрос по имени навыка
             key_query = session.query(self.Skill).filter(self.Skill.name == key).first()
-            key_query_id = key_query.name
-            name_key_skills_list.append(key_query_id)
+            key_query_id = key_query.id
+            id_key_skills_list.append(key_query_id)
 
         # Узанем id  вакансии
         vacancy_query = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).first()
         vacancy_id = vacancy_query.id
 
         # Заполняем таблицу vacancy key_skills. Заполняем id  вакансии и id ключеваго навыка
-        for skill_name in name_key_skills_list:
-            skill_query_val = session.query(self.Skill).filter(self.Skill.name == skill_name).first()
-            if not skill_query_val:
-                key_query = session.query(self.Skill).filter(self.Skill.name == skill_name).first()
-                key_query_id = key_query.id
-                vac_sk = self.Vacancyskill.insert().values(vacancy_id=vacancy_id, skill_id=key_query_id)
+        for id_skill in id_key_skills_list:
+            key_skills_list = session.query(self.Vacancyskill).filter(self.Vacancyskill.c.vacancy_id == vacancy_id).filter(self.Vacancyskill.c.skill_id == id_skill).all()
+            if key_skills_list == []:
+                vac_sk = self.Vacancyskill.insert().values(vacancy_id=vacancy_id, skill_id=id_skill)
                 session.execute(vac_sk)
 
-        session.commit()
+            session.commit()
 
     def select_table_sql(self, question, city):
 
@@ -140,9 +137,6 @@ class Input_SQLAlchemy:
         # create a Session
         session = Session()
 
-        city_query = session.query(self.Region).filter(self.Region.name == city).first()
-
-        vacancies = session.query(self.Vacancy).filter(self.Vacancy.region_id == city_query.id).all()
         vacancies_query = session.query(self.Vacancy).filter(self.Vacancy.name == question).first()
 
         key_skills_list = session.query(self.Vacancyskill).filter(
@@ -150,7 +144,7 @@ class Input_SQLAlchemy:
 
         return_key_skills_list_id = []
         for key in key_skills_list:
-            key_skill = key[0]
+            key_skill = key[2]
             return_key_skills_list_id.append(key_skill)
 
         skills_list = []

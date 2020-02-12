@@ -8,10 +8,10 @@ from class_Input_SQLAlchemy import Input_SQLAlchemy
 #
 # print(test_Q_list)
 
-test_Alch = Input_SQLAlchemy('Data', 'Москва')
+test_Alch = Input_SQLAlchemy('Data', 'Казань')
 test_Alch.create_table()
 
 test_Alch.full_table_sql()
 
-sk_list = test_Alch.select_table_sql('Data', 'Москва')
+sk_list = test_Alch.select_table_sql('Data', 'Казань')
 print(sk_list)
