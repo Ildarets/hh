@@ -10,8 +10,7 @@ class Input_SQLAlchemy:
     def __init__(self, QUESTIONS, CITY):
         self.QUESTIONS = QUESTIONS
         self.CITY = CITY
-        parser = Parser_HH(QUESTIONS, CITY)
-        self.skills_list = parser.key_skills()
+
 
     def create_table(self):
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
@@ -66,7 +65,8 @@ class Input_SQLAlchemy:
         self.Vacancy = Vacancy
 
     def full_table_sql(self):
-
+        parser = Parser_HH(self.QUESTIONS, self.CITY)
+        skills_list = parser.key_skills()
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
         # Заполняем таблицы
         Session = sessionmaker(bind=engine)
@@ -77,7 +77,7 @@ class Input_SQLAlchemy:
         """ ДЕлаем объект и заполняем таблицу должностью, городом и навыками"""
 
         # Список ключевых навыков
-        key_skills_list = self.skills_list
+        key_skills_list = skills_list
 
         # Делаем запрос по имени города
         city = session.query(self.Region).filter(self.Region.name == self.CITY).first()
@@ -128,26 +128,56 @@ class Input_SQLAlchemy:
 
             session.commit()
 
-    def select_table_sql(self, question, city):
-
+    def select_city_question(self, city, question):
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
         # Заполняем таблицы
         Session = sessionmaker(bind=engine)
 
         # create a Session
         session = Session()
+        # Делаем запрос по имени города
+        region = session.query(self.Region).filter(self.Region.name == city).first()
+        # Получаем объект вакансии для получения id
+        if not region:
+            return region
+        vacancies_query = session.query(self.Vacancy).filter(self.Vacancy.region_id == region.id).filter(self.Vacancy.name == question).first()
 
+        #  добавляем
+        session.add(self.Vacancy(question, city))
+        session.commit()
+
+        return vacancies_query
+
+
+
+    def select_table_sql(self, question, city):
+        skills_list = []
+        engine = create_engine('sqlite:///orm.sqlite', echo=False)
+        # Заполняем таблицы
+        Session = sessionmaker(bind=engine)
+
+        # create a Session
+        session = Session()
+        # Получаем объект вакансии для получения id
         vacancies_query = session.query(self.Vacancy).filter(self.Vacancy.name == question).first()
+        # Если список пустой то, возвращаем надпись что ничего нет по данной вакансии
+        if not vacancies_query:
+            skills_list = []
+            return skills_list
 
+        # Получаем кортеж из таблицы Vacancyskill где приссутствуют ключевые навыки для этой вакансии
         key_skills_list = session.query(self.Vacancyskill).filter(
             self.Vacancyskill.c.vacancy_id == vacancies_query.id).all()
 
+
+        # Получаем список id для поиска ключевых навыков из таблицы Skill
         return_key_skills_list_id = []
         for key in key_skills_list:
             key_skill = key[2]
             return_key_skills_list_id.append(key_skill)
 
-        skills_list = []
+        # Получаем список навыков по id из таблицы Skill
+
         for skill_id in return_key_skills_list_id:
             skill_real = session.query(self.Skill).filter(self.Skill.id == skill_id).first()
             skills_list.append(skill_real.name)
