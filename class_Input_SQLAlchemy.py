@@ -64,8 +64,8 @@ class Input_SQLAlchemy:
         self.Vacancyskill = Vacancyskill
         self.Vacancy = Vacancy
 
-    def full_table_sql(self):
-        parser = Parser_HH(self.QUESTIONS, self.CITY)
+    def full_table_sql(self, QUESTIONS, CITY):
+        parser = Parser_HH(QUESTIONS, CITY)
         skills_list = parser.key_skills()
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
         # Заполняем таблицы
@@ -80,22 +80,22 @@ class Input_SQLAlchemy:
         key_skills_list = skills_list
 
         # Делаем запрос по имени города
-        city = session.query(self.Region).filter(self.Region.name == self.CITY).first()
+        city = session.query(self.Region).filter(self.Region.name == CITY).first()
         # Если этого города нет то мы его добавляем
         if not city:
-            session.add(self.Region(self.CITY))
+            session.add(self.Region(CITY))
         session.commit()
         # Делаем запрос по имени города
-        city = session.query(self.Region).filter(self.Region.name == self.CITY).first()
+        city = session.query(self.Region).filter(self.Region.name == CITY).first()
         # ищем id города
         city_id = city.id
 
         # Заполняем вакансии
         # Делаем запрос по имени города
-        vacancy = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).first()
+        vacancy = session.query(self.Vacancy).filter(self.Vacancy.name == QUESTIONS).first()
         # Если этой вакансии нет то мы ее добавляем
-        if not vacancy:
-            session.add(self.Vacancy(self.QUESTIONS, city_id))
+        # if not vacancy:
+        session.add(self.Vacancy(QUESTIONS, city_id))
         session.commit()
         # Заполняем навыки
         for skill in key_skills_list:
@@ -116,7 +116,7 @@ class Input_SQLAlchemy:
             id_key_skills_list.append(key_query_id)
 
         # Узанем id  вакансии
-        vacancy_query = session.query(self.Vacancy).filter(self.Vacancy.name == self.QUESTIONS).first()
+        vacancy_query = session.query(self.Vacancy).filter(self.Vacancy.name == QUESTIONS).first()
         vacancy_id = vacancy_query.id
 
         # Заполняем таблицу vacancy key_skills. Заполняем id  вакансии и id ключеваго навыка
@@ -128,7 +128,7 @@ class Input_SQLAlchemy:
 
             session.commit()
 
-    def select_city_question(self, city, question):
+    def select_city_question(self, question, city):
         engine = create_engine('sqlite:///orm.sqlite', echo=False)
         # Заполняем таблицы
         Session = sessionmaker(bind=engine)
@@ -137,16 +137,28 @@ class Input_SQLAlchemy:
         session = Session()
         # Делаем запрос по имени города
         region = session.query(self.Region).filter(self.Region.name == city).first()
+        print(region.id)
         # Получаем объект вакансии для получения id
         if not region:
             return region
-        vacancies_query = session.query(self.Vacancy).filter(self.Vacancy.region_id == region.id).filter(self.Vacancy.name == question).first()
+        vacancies_query = session.query(self.Vacancy).filter(self.Vacancy.region_id == region.id).all()
+        vk_list = []
+        for vk in vacancies_query:
+            print(vk.name)
+            vk_list.append(vk.name)
+        print(vacancies_query)
+        if region and question in vk_list:
+            return vacancies_query
+        else:
+            return None
 
-        #  добавляем
-        session.add(self.Vacancy(question, city))
-        session.commit()
+        # session.query(MyClass). \
+        #     filter(MyClass.name == 'some name', MyClass.id > 5)
+        # #  добавляем
+        # session.add(self.Vacancy(question, city))
+        # session.commit()
 
-        return vacancies_query
+
 
 
 

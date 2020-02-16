@@ -87,12 +87,12 @@ def run_postSQLAlchemy():
     CITY = request.form['CITY']
     input_table = Input_SQLAlchemy(QUESTIONS, CITY)
     input_table.create_table()
-
     output_table = input_table.select_city_question(QUESTIONS, CITY)
-
+    print(output_table)
     """Если запрос возвращает пустой список, то тогда парсим данные и возвращаем список ключевых навыков"""
     if not output_table:
-        input_table.full_table_sql()
+
+        input_table.full_table_sql(QUESTIONS, CITY)
         output_ = input_table.select_table_sql(QUESTIONS, CITY)
     else:
         output_ = input_table.select_table_sql(QUESTIONS, CITY)
