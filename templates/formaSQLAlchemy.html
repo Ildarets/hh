@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Результаты</title>
+  <title>Формы</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
@@ -23,16 +23,16 @@
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-       <div class="bg-light border-right" id="sidebar-wrapper">
-          <div class="sidebar-heading">Мегапарсер hh </div>
-          <div class="list-group list-group-flush">
-            <a href="/" class="list-group-item list-group-item-action bg-light">Главная</a>
-            <a href="/run/" class="list-group-item list-group-item-action bg-light">Форма</a>
-            <a href="/runSQL/" class="list-group-item list-group-item-action bg-light">ФормаSQL</a>
-            <a href="/runSQLAlchemy/" class="list-group-item list-group-item-action bg-light">ФормаSQLAlchemy</a>
-            <a href="/contacts/" class="list-group-item list-group-item-action bg-light">Контакты</a>
-          </div>
-        </div>
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="list-group list-group-flush">
+        <a href="/" class="list-group-item list-group-item-action bg-light">Главная</a>
+        <a href="/run/" class="list-group-item list-group-item-action bg-light">Форма</a>
+        <a href="/runSQL/" class="list-group-item list-group-item-action bg-light">ФормаSQL</a>
+        <a href="/runSQL/" class="list-group-item list-group-item-action bg-light">ФормаSQLAlchemy</a>
+        <a href="/contacts/" class="list-group-item list-group-item-action bg-light">Контакты</a>
+      </div>
+    </div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
@@ -61,28 +61,21 @@
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">Результаты поиска</h1>
-          <hr>
-          <h4> Найдено {{vacancy}} вакансий </h4>
-          <br>
-          <h4> Средняя зарплата специалистов {{QUESTIONS}} в {{CITY}} {{list_salary_mean}} руб. </h4>
-          <table class="table table-bordered">
-        <tr>
-            <th>Ключевые навыки специалистов {{QUESTIONS}}</th>
-            <th>Количество встречающихся требований</th>
+        <h1 class="mt-4">{{text}}</h1>
+        <hr>
+        <form method="post" >
+          <h5 class="mt-2">Введите должность</h5>
+        <input class="form-group col-md-6" type  = "text" name="QUESTIONS" value="" placeholder="Python">
+        <br>
+        <br>
+          <h5 class="mt-2">Выберите город</h5>
+          <input class="form-group col-md-6" type  = "text" name="CITY" value="" placeholder="Москва">
 
-        </tr>
-            {% for item in key_skills[:10] %}
-
-        <tr>
-            <td>{{item[0]}}</td>
-            <td>{{item[1]}}</td>
-
-        </tr>
-            {% endfor %}
-
-    </table>
-      </div>
+        <br>
+        <br>
+        <input class="btn btn-info" type="submit" value="Искать">
+    </form>
+        </div>
     </div>
     <!-- /#page-content-wrapper -->
 
